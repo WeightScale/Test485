@@ -69,9 +69,9 @@ public class Main extends Application {
                     flow += 2 * Math.random() - 1;
                     flow = Math.abs(flow);
 
-                    String weightString = intToHex(19491001);
-                    String speedString = floatToHex(0.35F);
-                    String flowString = floatToHex(19.9F);
+                    String weightString = intToHex(weight);
+                    String speedString = floatToHex(speed);
+                    String flowString = floatToHex(flow);
                     StringBuilder command = new StringBuilder();
                     command.append("010310").append(weightString).append(speedString).append(flowString);
                     byte lrc = lrc(command.toString());

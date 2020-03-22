@@ -47,7 +47,7 @@ public class Main extends Application {
             byte b = (byte) Short.parseShort(string.substring(i, i + 2), 16);
             lrc += b;
         }
-        return lrc;
+        return (byte) (~lrc + 1);
     }
 
     @Override

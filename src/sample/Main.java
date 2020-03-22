@@ -21,6 +21,35 @@ public class Main extends Application {
      */
     private final byte DELIMITER = 0x0A;
 
+    private String intToHex(int int_, int length) {
+        return String.format("%1$" + length + "s", Integer.toHexString(int_).toUpperCase()).replace(' ', '0');
+    }
+
+    private String byteToHex(int byte_) {
+        if (byte_ < 0)
+            byte_ += 256;
+        return intToHex(byte_, 2);
+    }
+
+    private String intToHex(int int_) {
+        return intToHex(int_, 8);
+    }
+
+    private String floatToHex(float float_) {
+        int bits = Float.floatToIntBits(float_);
+        String string = byteToHex((byte) (bits >> 16));
+        return byteToHex((byte) (bits >> 24)) + byteToHex((byte) (bits >> 16)) + byteToHex((byte) (bits >> 8)) + byteToHex((byte) bits);
+    }
+
+    private byte lrc(String string) {
+        byte lrc = 0;
+        for (int i = 0; i < string.length(); i += 2) {
+            byte b = (byte) Short.parseShort(string.substring(i, i + 2), 16);
+            lrc += b;
+        }
+        return lrc;
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
@@ -39,9 +68,17 @@ public class Main extends Application {
                     speed = Math.abs(speed);
                     flow += 2 * Math.random() - 1;
                     flow = Math.abs(flow);
+
+                    String weightString = intToHex(19491001);
+                    String speedString = floatToHex(0.35F);
+                    String flowString = floatToHex(19.9F);
                     StringBuilder command = new StringBuilder();
-                    command.append(":010310");
-                    command.append("012968B9").append("3EB33333").append("419F3333").append("31").append('\r').append('\n');
+                    command.append("010310").append(weightString).append(speedString).append(flowString);
+                    byte lrc = lrc(command.toString());
+                    String lrcString = byteToHex(lrc);
+                    command.insert(0, ':');
+                    command.append(lrcString).append('\r').append('\n');
+
                     if(serialPort != null){
                         if(serialPort.isOpen())
                             serialPort.writeBytes(command.toString().getBytes(),command.length());

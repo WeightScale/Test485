@@ -47,11 +47,22 @@ public class Main extends Application {
             byte b = (byte) Short.parseShort(string.substring(i, i + 2), 16);
             lrc += b;
         }
-        return lrc;
+        return (byte) (~lrc + 1);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        String weightString = intToHex(19491001);
+        String speedString = floatToHex(0.35F);
+        String flowString = floatToHex(19.9F);
+        StringBuilder command = new StringBuilder();
+        command.append("010310").append(weightString).append(speedString).append(flowString);
+        byte lrc = lrc(command.toString());
+        String lrcString = byteToHex(lrc);
+        command.insert(0, ':');
+        command.append(lrcString).append('\r').append('\n');
+
+
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 300, 275));
@@ -69,15 +80,15 @@ public class Main extends Application {
                     flow += 2 * Math.random() - 1;
                     flow = Math.abs(flow);
 
-                    String weightString = intToHex(weight);
-                    String speedString = floatToHex(speed);
-                    String flowString = floatToHex(flow);
-                    StringBuilder command = new StringBuilder();
-                    command.append("010310").append(weightString).append(speedString).append(flowString);
-                    byte lrc = lrc(command.toString());
-                    String lrcString = byteToHex(lrc);
-                    command.insert(0, ':');
-                    command.append(lrcString).append('\r').append('\n');
+//                    String weightString = intToHex(weight);
+//                    String speedString = floatToHex(speed);
+//                    String flowString = floatToHex(flow);
+//                    StringBuilder command = new StringBuilder();
+//                    command.append("010310").append(weightString).append(speedString).append(flowString);
+//                    byte lrc = lrc(command.toString());
+//                    String lrcString = byteToHex(lrc);
+//                    command.insert(0, ':');
+//                    command.append(lrcString).append('\r').append('\n');
 
                     if(serialPort != null){
                         if(serialPort.isOpen())

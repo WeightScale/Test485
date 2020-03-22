@@ -69,9 +69,9 @@ public class Main extends Application {
                     flow += 2 * Math.random() - 1;
                     flow = Math.abs(flow);
 
-                    String weightString = intToHex(weight);
-                    String speedString = floatToHex(speed);
-                    String flowString = floatToHex(flow);
+                    String weightString = intToHex(1985);
+                    String speedString = floatToHex(23.65f);
+                    String flowString = floatToHex(124.2f);
                     StringBuilder command = new StringBuilder();
                     command.append("010310").append(weightString).append(speedString).append(flowString);
                     byte lrc = lrc(command.toString());
@@ -83,7 +83,7 @@ public class Main extends Application {
                         if(serialPort.isOpen())
                             serialPort.writeBytes(command.toString().getBytes(),command.length());
                     }
-                    Thread.sleep(500);
+                    Thread.sleep(1000);
                 }
                 System.out.println("Producer");
             } catch (InterruptedException exception) {

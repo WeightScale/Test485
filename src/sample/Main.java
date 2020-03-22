@@ -42,8 +42,10 @@ public class Main extends Application {
                     StringBuilder command = new StringBuilder();
                     command.append(":");
                     command.append(weight).append(speed).append(flow);
-                    if(serialPort != null)
-                        serialPort.writeBytes(command.toString().getBytes(),command.length());
+                    if(serialPort != null){
+                        if(serialPort.isOpen())
+                            serialPort.writeBytes(command.toString().getBytes(),command.length());
+                    }
                     Thread.sleep(500);
                 }
                 System.out.println("Producer");

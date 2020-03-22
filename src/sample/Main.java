@@ -40,8 +40,8 @@ public class Main extends Application {
                     flow += 2 * Math.random() - 1;
                     flow = Math.abs(flow);
                     StringBuilder command = new StringBuilder();
-                    command.append(":");
-                    command.append(weight).append(speed).append(flow);
+                    command.append(":010310");
+                    command.append("012968B9").append("3EB33333").append("419F3333").append("31").append('\r').append('\n');
                     if(serialPort != null){
                         if(serialPort.isOpen())
                             serialPort.writeBytes(command.toString().getBytes(),command.length());
